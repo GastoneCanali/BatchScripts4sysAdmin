@@ -1,7 +1,7 @@
 @echo off
 :: Startup script
 :: remove TrendMicro WorryFree
-:: and install SwntinelONE
+:: and install SentinelONE
 setlocal
 
 SET scriptpath=%~dp0
