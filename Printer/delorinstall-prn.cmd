@@ -35,6 +35,37 @@ goto :_END
 :: |---------------- FINE MAIN -- INIZIO PROCEDURE/FUNZIONI ------------------|
 :: |--------------------------------------------------------------------------|
 
+
+::  ***************************************************************************
+:: * funzione elenca stampanti                                                 *
+:: * Servername="printer server" "printer name"                                *
+:: *  Es.:  call :_ListPRN "SRVprint"                                          *
+:: *  Es.:  call :_ListPRN "SRVprint"                                          *
+:: *  Es.:  call :_ListPRN "SRVprint"  "hp laser"                              *
+::  ***************************************************************************
+
+rem wmic printer  where "name  like '%pdf'" get name
+rem wmic printer get sharename,name,DriverName, Portname,ServerName
+:_listPRN
+	echo o
+	rem wmic printer  where "name  like '%%%~1%%%'" get name
+	SET "$printer=%~2"
+	SET "$prnsrv=%~1"
+	reg query "HKEY_CURRENT_USER\Printers\Connections" |find /i "%$printer%"
+	reg query "HKEY_CURRENT_USER\Printers\Connections" |find /i "%$prnsrv%,%$printer%"
+	REM list network printers by server 
+	for /f  %%p in ('wmic printer  where ^'ServerName^="\\\\%$prnsrv%"^' get Name')  do echo %%p|find /i "%$prnsrv%"
+	REM list network printers 
+	for /f  %%p in ('wmic printer  where ^'ServerName like "%%%\\\\%%%"^' get Name') do echo %%p|find /i "\\"
+	REM list network printers
+	for /f  %%p in ('wmic printer  where ^'name  like "%%%$printer%%%"^' get name')  do echo %%p|find /i "%$printer%"
+    REM find network printers that contains in the name $printer and server name
+	for /f  %%p in ('wmic printer  where ^'ServerName^="\\\\%$prnsrv%" AND name  like "%%%$printer%%%"^' get Name') do echo %%p|find /i "%$prnsrv"
+	REM find the network printer by name and server
+	for /f  %%p in ('wmic printer  where ^'Name^="\\\\%$prnsrv%\\%$printer%"^' get Name') do echo %%p|find /i "%$printer%"
+	
+GOTO :EOF
+
 ::  ***************************************************************************
 :: * funzione installa stampanti                                               *
 :: * Servername="printer server","nome stampante", "y" setta la prn di default *
