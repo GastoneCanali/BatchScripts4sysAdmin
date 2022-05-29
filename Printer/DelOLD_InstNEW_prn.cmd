@@ -1,5 +1,8 @@
 @echo off
 setlocal
+:: Utilizzabile nello script di logon pe personalizzare
+:: le stampanti dell'utente
+
 rem sopprime std output e err output 
 set $nolog= ^> nul 2^>^&1
 
