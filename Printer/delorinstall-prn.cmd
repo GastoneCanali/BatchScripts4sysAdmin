@@ -62,9 +62,10 @@ goto :EOF
 :_listPRN
     SET "$printer=%~2"
     SET "$prnsrv=%~1"
+    
     REM List  the installed $printer shared by $prnsrv 
     For /f "delims=, tokens=2*" %%o in ('reg query "HKEY_CURRENT_USER\Printers\Connections" ^|find /i "%$prnsrv%,%$printer%"') do echo %%o + %%p
-    reg query "HKEY_CURRENT_USER\Printers\Connections" |find /i "%$prnsrv%,%$printer%" 
+     
     REM --------- other ways, but slow ---------
     REM for /f  %%p in ('wmic printer  where ^'ServerName^="\\\\%$prnsrv%"^' get Name')  do echo %%p|find /i "%$prnsrv%"
     REM *** list network printers 
