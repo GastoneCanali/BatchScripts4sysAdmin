@@ -46,23 +46,23 @@ goto :_END
 rem wmic printer  where "name  like '%pdf'" get name
 rem wmic printer get sharename,name,DriverName, Portname,ServerName
 :_listPRN
-	SET "$printer=%~2"
-	SET "$prnsrv=%~1"
+    SET "$printer=%~2"
+    SET "$prnsrv=%~1"
     REM ** list All network printers
-	REM For /f "delims=, tokens=2*" %%o in ('reg query "HKEY_CURRENT_USER\Printers\Connections"') do echo %%o + %%p
+    REM For /f "delims=, tokens=2*" %%o in ('reg query "HKEY_CURRENT_USER\Printers\Connections"') do echo %%o + %%p
     REM List the $printer on $prnsrv
     For /f "delims=, tokens=2*" %%o in ('reg query "HKEY_CURRENT_USER\Printers\Connections" ^|find /i "%$prnsrv%,%$printer%"') do echo %%o + %%p
     reg query "HKEY_CURRENT_USER\Printers\Connections" |find /i "%$prnsrv%,%$printer%" 
-	REM **** other ways, but slow
+    REM **** other ways, but slow
     REM for /f  %%p in ('wmic printer  where ^'ServerName^="\\\\%$prnsrv%"^' get Name')  do echo %%p|find /i "%$prnsrv%"
-	REM ** list network printers 
-	REM for /f  %%p in ('wmic printer  where ^'ServerName like "%%%\\\\%%%"^' get Name') do echo %%p|find /i "\\"
-	REM ** list network printers
+    REM ** list network printers 
+    REM for /f  %%p in ('wmic printer  where ^'ServerName like "%%%\\\\%%%"^' get Name') do echo %%p|find /i "\\"
+    REM ** list network printers
     REM for /f  %%p in ('wmic printer  where ^'name  like "%%%$printer%%%"^' get name')  do echo %%p|find /i "%$printer%"
     REM ** find network printers that contains in the name $printer and server name
-	REM for /f  %%p in ('wmic printer  where ^'ServerName^="\\\\%$prnsrv%" AND name  like "%%%$printer%%%"^' get Name') do echo %%p|find /i "%$prnsrv"
-	REM ** find the network printer by name and server
-	REM for /f  %%p in ('wmic printer  where ^'Name^="\\\\%$prnsrv%\\%$printer%"^' get Name') do echo %%p|find /i "%$printer%"
+    REM for /f  %%p in ('wmic printer  where ^'ServerName^="\\\\%$prnsrv%" AND name  like "%%%$printer%%%"^' get Name') do echo %%p|find /i "%$prnsrv"
+    REM ** find the network printer by name and server
+    REM for /f  %%p in ('wmic printer  where ^'Name^="\\\\%$prnsrv%\\%$printer%"^' get Name') do echo %%p|find /i "%$printer%"
 GOTO :EOF
 
 ::  ***************************************************************************
