@@ -1,4 +1,10 @@
 @echo off
+:: 
+::  List or Delete or install Windows printers
+::  You can use this in a usel logon script
+::  to automate printers operation
+::  Set the default user printer, delete old printrs or install the new one
+::
 setlocal
 
 set filename=%~n0
