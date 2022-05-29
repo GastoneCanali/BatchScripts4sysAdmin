@@ -1,5 +1,5 @@
 @echo off
-:: Startup script -
+:: Startup script - 
 :: remove TrendMicro WorryFree
 :: and install SentinelONE
 setlocal
