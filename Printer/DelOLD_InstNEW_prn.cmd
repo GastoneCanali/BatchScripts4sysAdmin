@@ -8,9 +8,9 @@ set $nolog= ^> nul 2^>^&1
 
 :: Esempio se la stampante vecchia si chiama \\SRVtitan\hp laser amm
 :: e la nuova \\SRVtitan\hp laserAmm
-SET printServer="SRVtitan"
-set oldPrinter="hp laser amm"
-set newPrinter="LaserAmm"
+SET "printServer=SRVtitan"
+set "oldPrinter=hp laser amm"
+set "newPrinter=LaserAmm"
 
 :: verifico l'esistenza della stampante vecchia
    reg query "HKEY_CURRENT_USER\Printers\Connections\,,%printServer%,%oldPrinter%" %$nolog% && set "$Prn_exist=Y"
