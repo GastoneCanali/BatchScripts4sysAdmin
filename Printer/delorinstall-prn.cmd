@@ -35,6 +35,19 @@ goto :_END
 :: |---------------- FINE MAIN -- INIZIO PROCEDURE/FUNZIONI ------------------|
 :: |--------------------------------------------------------------------------|
 
+::  ***************************************************************************
+:: * funzione elenca stampanti                                                 *
+:: *  no params                                                                *
+:: *  Es.:  call :_listAllWinPRN                                                 *
+::  ***************************************************************************
+:_listAllWinPRN
+    REM ** list All win printers
+    For /f "delims=, tokens=2*" %%o in ('reg query "HKEY_CURRENT_USER\Printers\Connections"') do echo %%o + %%p
+    REM ** List ALL printer (local,win,tcp etc.)
+    REM wmic printer get sharename,name,DriverName, Portname,ServerName 
+    REM ** list printers if contain pdf in the name
+    REM wmic printer  where "name  like '%pdf%'" get name
+goto :EOF
 
 ::  ***************************************************************************
 :: * funzione elenca stampanti                                                 *
@@ -48,8 +61,6 @@ rem wmic printer get sharename,name,DriverName, Portname,ServerName
 :_listPRN
     SET "$printer=%~2"
     SET "$prnsrv=%~1"
-    REM ** list All network printers
-    REM For /f "delims=, tokens=2*" %%o in ('reg query "HKEY_CURRENT_USER\Printers\Connections"') do echo %%o + %%p
     REM List the $printer on $prnsrv
     For /f "delims=, tokens=2*" %%o in ('reg query "HKEY_CURRENT_USER\Printers\Connections" ^|find /i "%$prnsrv%,%$printer%"') do echo %%o + %%p
     reg query "HKEY_CURRENT_USER\Printers\Connections" |find /i "%$prnsrv%,%$printer%" 
