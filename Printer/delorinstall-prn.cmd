@@ -13,7 +13,10 @@ set $APPEND_installPRN=^>^>%$cmdfilefull%
 :: *** cancello il file di installazione stampanti
 IF EXIST %$cmdfilefull% del %$cmdfilefull%
 
+::-----------------------------------------------------------------------------
 :: Your work - modify for your needs
+::-----------------------------------------------------------------------------
+
 REM installa la stampante fa-creaPDF e la setta di default
 REM call :_installprn "SRVprint" "fa-creaPDF" "Y" 
 REM call :_Deleteprn "SRVprint" "FAT-Betoniera"
@@ -46,6 +49,8 @@ goto :_END
 :_listAllWinPRN
     REM *** list All win printers
     For /f "delims=, tokens=2*" %%o in ('reg query "HKEY_CURRENT_USER\Printers\Connections"') do echo %%o + %%p
+    
+    REM other ways 
     REM *** List ALL printer (local,win,tcp etc.)
     REM wmic printer get sharename,name,DriverName, Portname,ServerName 
     REM *** list printers if contain pdf in the name
