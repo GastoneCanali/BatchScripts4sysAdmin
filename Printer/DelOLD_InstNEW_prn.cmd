@@ -20,9 +20,9 @@ set newPrinter="LaserAmm"
 :: verifico l'esistenza della stampante nuova
    reg query "HKEY_CURRENT_USER\Printers\Connections\,,%printServer%,%newPrinter%" %$nolog% && set "$Prn_exist=Y" 
    If /i [%$Prn_exist%]==[y] (
-       echo "Nuova stamapante %newPrinter% presente
+       echo "Nuova stamapante %newPrinter% presente"
    ) else (
-	   echo "Nuova stamapante %newPrinter% NON presente, installo
+	   echo "Nuova stamapante %newPrinter% NON presente, installo"
        RUNDLL32.EXE printui.dll,PrintUIEntry /q /u  /in  /n "\\%printServer%\%newPrinter%"   
    )
 
