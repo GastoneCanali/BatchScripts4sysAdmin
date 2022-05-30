@@ -17,7 +17,7 @@ rem set log=
 mkdir c:\temp     %null%
 mkdir c:\temp\sys %null%
 pushd c:\temp\sys %null% || exit
-pause
+
 
 ::SET path=c:\path\ToRobocopy;%path%
 SET SysIntUrl=https://live.sysinternals.com/tools
