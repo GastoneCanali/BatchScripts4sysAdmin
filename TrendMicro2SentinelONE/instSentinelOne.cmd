@@ -10,7 +10,7 @@ Set LOGfile=%temp%\_seonelog.log
 
 echo -%computername%-%date%-%time%- >>%LOGfile%
 
-:: Critical point: don't ask me why you don't find the file ....
+:: Critical point: set correctly the permission of th share \\Server01\log$  ....
 Set "GlobalLog=\\Server01\log$\SeOneLog.csv"
 if exist C:\Windows\System32\drivers\SentinelOne\ELAM\SentinelELAM.sys goto :_installed
 
