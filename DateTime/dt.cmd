@@ -71,7 +71,7 @@ goto :EOF
 echo off
 ::debug
 echo H_sep  =%H_sep%+
-echo H_sep  =%D_sep%+
+echo D_sep  =%D_sep%+
 echo time   =%TT%+
 echo data   =%DD%+
 echo seco   =%_SS%+
