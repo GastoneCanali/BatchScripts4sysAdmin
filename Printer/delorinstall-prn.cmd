@@ -5,7 +5,7 @@
 ::  to automate printers operation
 ::
 ::  Set the default user printer, delete old printrs or install the new one
-::
+:: OS supported: from windows 2000 to windows 11
 setlocal
 
 set filename=%~n0
