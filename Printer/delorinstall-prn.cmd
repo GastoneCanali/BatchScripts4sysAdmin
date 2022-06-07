@@ -11,46 +11,58 @@ set filename=%~n0
 set logfile="%userprofile%\_%filename%.txt"
 set $nolog= ^> nul 2^>^&1
 
-:: *** svuoto la variabile stampanti
-set $stampanti=
+:: *** init variabile printers
+set $printers=
 set $cmdfile=installPRN.cmd
 set $cmdfilefull="%temp%\%$cmdfile%"
 set $APPEND_installPRN=^>^>%$cmdfilefull%
-:: *** cancello il file di installazione stampanti
+:: *** delete the install/delete batch file (will be created accordingly )  
 IF EXIST %$cmdfilefull% del %$cmdfilefull%
 
+
+
 ::-----------------------------------------------------------------------------
-:: Your work - modify for your needs
+:: MAIN - Your work - modify for your needs
 ::-----------------------------------------------------------------------------
 
-REM installa la stampante fa-creaPDF e la setta di default
+::  Turn Off "Let Windows 10 Manage Default Printer"  
+reg add "HKEY_CURRENT_USER\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Windows\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Windows" /v "LegacyDefaultPrinterMode" /t REG_DWORD /d "1" /f
+
+REM install the printer fa-creaPDF and force as default
 REM call :_installprn "SRVprint" "fa-creaPDF" "Y" 
-REM call :_Deleteprn "SRVprint" "FAT-Betoniera"
+REM delete windows network printer "LaserFAT-Betoniera" 
+REM call :_Deleteprn "SRVprint" "LaserFAT-Betoniera"
 call :_listAllWinPRN
 REM call :_ListPRN "SRVprint"  "hp laser"
+
+::-----------------------------------------------------------------------------
+:: END MAIN - Your work finish here
+::-----------------------------------------------------------------------------
+
+
   
 ::-Don't modify after this----------------------------------------------------------------------------
-::  ***   crea ed esegue il batch che install le stampanti   ***
-:: nn e' detto : verificare folder redir
-::-----------------------------------------------------------------------------
+::  ***   Batch Creation and execution     ***
+:: pay attentio if tou have folder redir
+::----------------------------------------------------------------------------------------------------
 rem set $path_desktop=%USERPROFILE%\desktop
     FOR %%R IN (%$cmdfilefull%) Do IF %%~zR EQU 0 Goto :_END
     echo echo off                                          %$APPEND_installPRN%
-    echo rem Esegue lo script per installre le stampanti  %$APPEND_installPRN%
+    echo rem Starting the genetated script                 %$APPEND_installPRN%
     echo :: del %%0                                        %$APPEND_installPRN%
-    rem *** esegue lo script  (che cancellerà e installerà le prn)
+    rem *** run the script  (delete one or more printers or install one or more printers )
 		%$cmdfilefull%
     endlocal
 goto :_END
 
 :: |--------------------------------------------------------------------------|
-:: |---------------- FINE MAIN -- INIZIO PROCEDURE/FUNZIONI ------------------|
+:: |-----------------------I NIZIO PROCEDURE/FUNZIONI ------------------------|
 :: |--------------------------------------------------------------------------|
 
 ::  ***************************************************************************
-:: * funzione elenca stampanti                                                 *
+:: *  Function list printers                                                   *
 :: *  no params                                                                *
-:: *  Es.:  call :_listAllWinPRN                                                 *
+:: *  Es.:  call :_listAllWinPRN                                               *
 ::  ***************************************************************************
 :_listAllWinPRN
     REM *** list All win printers
@@ -64,8 +76,8 @@ goto :_END
 goto :EOF
 
 ::  ***************************************************************************
-:: * funzione elenca stampanti                                                 *
-:: *  first param "printer server"  second param "printer name"                                *
+:: * Function list printer                                                     *
+:: *  first param "printer server"  second param "printer name"                *
 :: *  Es.:  call :_ListPRN "SRVprint"                                          *
 :: *  Es.:  call :_ListPRN "SRVprint"                                          *
 :: *  Es.:  call :_ListPRN "SRVprint"  "hp laser"                              *
@@ -90,34 +102,34 @@ goto :EOF
 GOTO :EOF
 
 ::  ***************************************************************************
-:: * funzione install stampanti                                               *
-:: * Servername="printer server","nome stampante", "y" setta la prn di default *
-:: *  Es.:  call :_installprn "SRVprint" "Laser Jet" "y"                      *
+:: *  function install printers                                                 *
+:: *  Servername="printer server","nome stampante", "y" setta la prn di default *
+:: *  Es.:  call :_installprn "SRVprint" "Laser Jet" "y"                        *
 ::  ***************************************************************************
 :_installprn
 rem  $ServerName , $PrinterName , $DefaultPrinter 
    set $Prn_exist=
    reg query "HKEY_CURRENT_USER\Printers\Connections\,,%~1,%~2" %$nolog% &&set $Prn_exist=Y
    If /i [%$Prn_exist%]==[y] (
-       %echo% "TROVATA %2 presente: %$Prn_exist%"
+       %echo% "Found %2 : %$Prn_exist%"
    ) else (
        echo  RUNDLL32.EXE printui.dll,PrintUIEntry /q /u  /in  /n "\\%~1\%~2"        %$APPEND_installPRN%
        if /i [%3]==[y] echo RUNDLL32.EXE printui.dll,PrintUIEntry /y /n  "\\%~1\%~2" %$APPEND_installPRN%
-       %echo% "Da Installare %2 non presente: %$Prn_exist%"
+       %echo% "To beInstalled %2 not present: %$Prn_exist%"
    ) 
 goto :EOF
 
 ::  ***************************************************************************
-:: *       funzione elimina stampanti                                          *
+:: *       Function delete printer                                             *
 :: *       Servername="printer server","nome stampante"                        *
-:: *       Es.:  call :_Deleteprn "SRVprint" "FAT-Betoniera"                *
+:: *       Es.:  call :_Deleteprn "SRVprint" "FAT-Betoniera"                   *
 ::  ***************************************************************************
 :_Deleteprn
 rem  call _Deleteprn $ServerName , $PrinterName 
    set $canellaprn=
    set $Prn_exist=
    reg query "HKEY_CURRENT_USER\Printers\Connections\,,%~1,%~2" %$nolog% &&set $Prn_exist=Y
-   rem se esiste la cancello
+   rem Delete if exist
    If /i [%$Prn_exist%]==[y] echo RUNDLL32.EXE printui.dll,PrintUIEntry /q /dn  /n "\\%~1\%~2" %$APPEND_installPRN%
    %echo% _Deleteprn %1  [%$Prn_exist%]
 goto :EOF
