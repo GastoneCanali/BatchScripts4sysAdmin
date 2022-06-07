@@ -6,6 +6,8 @@
 ::
 ::  Set the default user printer, delete old printrs or install the new one
 :: OS supported: from windows 2000 to windows 11
+::
+:: info about printui, try:  RUNDLL32.EXE printui.dll,PrintUIEntry /?
 setlocal
 
 set filename=%~n0
