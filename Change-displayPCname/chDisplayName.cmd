@@ -1,0 +1,1 @@
+reg add HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer\CLSID\{20D04FE0-3AEA-1069-A2D8-08002B30309D} /d "%userdomain%\%username% on MyPC %computername%" /t REG_EXPAND_SZ /f
