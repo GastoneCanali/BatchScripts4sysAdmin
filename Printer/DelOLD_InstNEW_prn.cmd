@@ -17,7 +17,7 @@ set "newPrinter=LaserAmm"
    reg query "HKEY_CURRENT_USER\Printers\Connections\,,%printServer%,%oldPrinter%" %$nolog% && set "$Prn_exist=Y"
    If /i [%$Prn_exist%]==[y] (
        echo "%oldPrinter% presente: %$Prn_exist%"
-	   echo Cancello
+       echo Cancello
        RUNDLL32.EXE printui.dll,PrintUIEntry /q /dn  /n "\\%printServer%\%oldPrinter%"	  
    )
    
@@ -26,7 +26,7 @@ set "newPrinter=LaserAmm"
    If /i [%$Prn_exist%]==[y] (
        echo "Nuova stampante %newPrinter% presente"
    ) else (
-	   echo "Nuova stampante %newPrinter% NON presente, installo"
+       echo "Nuova stampante %newPrinter% NON presente, installo"
        RUNDLL32.EXE printui.dll,PrintUIEntry /q /u  /in  /n "\\%printServer%\%newPrinter%"   
    )
 
