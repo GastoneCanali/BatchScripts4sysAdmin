@@ -1,7 +1,8 @@
 @echo off
 setlocal
-:: Utilizzabile nello script di logon pe personalizzare
+:: Utilizzabile nello script di logon per personalizzare
 :: le stampanti dell'utente
+:: In qusro semplice caso canceello la stampante vecchia (il DelOLD) e installo la buova (InstNEW)
 
 rem sopprime std output e err output 
 set $nolog= ^> nul 2^>^&1
